@@ -27,7 +27,7 @@ Real-time event tracking is implemented on the front-end, providing a clear time
 [View the contract on PolygonScan](https://polygonscan.com/address/0xfd5011a9080b6059411236ab74f395b74e597573)
 
 ### Live Deployment on GitHub Pages
-[Visit the JollySandbox Application](https://TheJollyLaMa.github.io/JollySandbox/)
+[Visit the JollySandbox Application](https://TheJollyLaMa.github.io/JollySandbox/public)
 
 ---
 
