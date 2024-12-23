@@ -1,0 +1,233 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: chalkduster, sans-serif; /* Use custom font */
+    color: white;
+    text-align: center;
+    background: url('/assets/landing.png') no-repeat center center;
+    background-size: cover; /* Ensures the image covers the entire background */
+    image-rendering: crisp-edges; /* Improves clarity for pixel-based images */
+    image-rendering: -webkit-optimize-contrast; /* For better clarity in WebKit browsers */
+    background-attachment: fixed; /* Keeps the background static while scrolling */
+}
+
+.background {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(1px);
+}
+
+.container {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+button {
+    font-size: 1rem;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#wallet-address {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #ccc;
+}
+.timeline-container {
+    position: relative; /* Make the container the positioning context */
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    width: 600px;
+    margin: 0 auto;
+    overflow: hidden; /* Prevent content from spilling out */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5; /* Make the video semi-transparent */
+    object-fit: cover; /* Ensures the video covers the container */
+    z-index: -1; /* Push the video to the background */
+}
+
+.timeline-container h2,
+.timeline-container .timeline {
+    font-family: chalkduster, sans-serif;
+    position: relative; /* Ensure the content is above the video */
+    z-index: 1; /* Higher z-index than the video */
+}
+
+.timeline {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8); /* Add some transparency */
+    color: black;
+}
+
+.timeline p {
+    margin: 5px 0;
+}
+
+.hidden {
+    display: none;
+}
+.visible {
+    display: block;
+}
+
+.icon-small {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: middle; /* Align with text */
+}
+
+.director {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    color: #02fffb; /* Adjust the color */
+    text-shadow: 0 0 10px #02fffb, 0 0 20px #02fffb, 0 0 30px #02fffb; /* Add glow effect */
+    font-weight: bold; /* Make text stand out */
+    font-size: 1.2rem; /* Slightly larger text */
+    box-shadow: 0px 0px 10px rgba(2, 255, 251, 0.7); /* Subtle glow around box */
+    padding: 10px;
+    border-radius: 10px; /* Rounded corners for the glowing box */
+    background: rgba(0, 0, 0, 0.5); /* Optional background to improve contrast */
+    border: 2px solid rgba(2, 255, 251, 0.8); /* Glowing border */
+}
+
+.producer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    color: #02ff74; /* Adjusted for producer */
+    text-shadow: 0 0 10px #02ff74, 0 0 20px #02ff74, 0 0 30px #02ff74; /* Add glow effect */
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0px 0px 10px rgba(2, 255, 116, 0.7); /* Subtle glow around box */
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.5); /* Optional background */
+    border: 2px solid rgba(2, 255, 116, 0.8); /* Glowing border */
+}
+
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure it is above all other content */
+}
+
+#loader.hidden {
+    display: none; /* Hide the loader */
+}
+
+.loadagon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader-img {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+}
+
+.loader-text {
+    color: white;
+    font-size: 1.2rem;
+    margin-top: 20px;
+}
+
+.contract-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    color: rgba(245, 231, 42, 0.714);
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 1000; /* Ensure it stays on top */
+    text-align: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.contract-display .icon-container {
+    display: flex;
+    margin: 0 10px; /* Add spacing between icons and text */
+}
+
+.contract-display .icon-container video {
+    width: 24px;
+    height: 24px;
+    margin: 0 2px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.contract-button {
+    background-color: #1a73e800; /* Blue background */
+    color: rgba(252, 239, 44, 0.714);
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(10, 241, 241, 0.5);
+}
+
+.contract-button:hover {
+    background-color: #1557b369; /* Darker blue on hover */
+}

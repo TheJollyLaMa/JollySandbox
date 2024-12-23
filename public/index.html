@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox Producer</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+        <div id="contract-address" class="contract-display hidden">
+            <button id="contract-link" class="contract-button hidden"></button>
+        </div>
+        <div id="loader" class="hidden">
+            <div class="loadagon">
+                <img src="./assets/IPFS_Logo.png" alt="Top Icon" class="loader-img spin-slow top-icon" />
+                <img src="./assets/Polygon_Logo.png" alt="Top Right Icon" class="loader-img" />
+                <img src="./assets/DecentSmartHome_Logo.png" alt="Bottom Right Icon" class="loader-img" />
+                <img src="./assets/Polygon_Logo.png" alt="Bottom Icon" class="loader-img spin-slow bottom-icon" />
+                <img src="./assets/IPFS_Logo.png" alt="Bottom Left Icon" class="loader-img" />
+                <img src="./assets/DecentSmartHome_Logo.png" alt="Top Left Icon" class="loader-img" />
+            </div>
+            <div class="loader-text">Loading...</div>
+    </div>
+
+    <div class="background">
+        <div class="container">
+            <h1>Sandbox Producer Payout Portal</h1>
+            <button id="walletConnectBtn">Connect Wallet</button>
+            <p id="director-address" class="director hidden"></p>
+            <p id="producer-address" class="producer hidden"></p>
+            <button id="signingBonusBtn" disabled>Claim Signing Bonus</button>
+            <button id="recruitmentBtn" disabled>Record Recruitment</button>
+            <button id="classCompletionBtn" disabled>Record Class Completion</button>
+            <button id="finalCompletionBtn" disabled>Claim Final Completion</button>
+        </div>
+    </div>
+    <div class="timeline-container">
+        <video autoplay muted loop class="background-video">
+            <source src="/assets/blue_sprite.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h2>Contract Event Timeline</h2>
+        <div id="timeline" class="timeline">
+            <p>No events yet.</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="/scripts/contract.js"></script>
+    
+    <script>
+        const contractAddress = "0xfd5011a9080B6059411236AB74F395B74e597573";
+        
+        document.getElementById("walletConnectBtn").addEventListener("click", async () => {
+            await connectWallet();
+            await initializeContract(contractAddress);
+    
+            // Enable buttons
+            document.getElementById("signingBonusBtn").disabled = false;
+            document.getElementById("recruitmentBtn").disabled = false;
+            document.getElementById("classCompletionBtn").disabled = false;
+            document.getElementById("finalCompletionBtn").disabled = false;
+        });
+    
+        document.getElementById("signingBonusBtn").addEventListener("click", claimSigningBonus);
+        document.getElementById("recruitmentBtn").addEventListener("click", async () => {
+            const students = prompt("Enter the number of students recruited:");
+            await recordRecruitment(students);
+        });
+        document.getElementById("classCompletionBtn").addEventListener("click", async () => {
+            const attendees = prompt("Enter the number of attendees:");
+            await recordClassCompletion(attendees);
+        });
+        document.getElementById("finalCompletionBtn").addEventListener("click", claimFinalCompletion);
+    </script>
+</body>
+</html>
