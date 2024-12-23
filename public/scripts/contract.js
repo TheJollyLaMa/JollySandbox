@@ -78,6 +78,8 @@ async function initializeContract(contractAddress) {
         producerDisplay.innerHTML = `Producer: ${producerAddress.slice(0, 4)}...${favicons}...${producerAddress.slice(-4)}`;
         producerDisplay.classList.remove("hidden");
 
+        // Fetch past events
+        fetchPastEvents();
         // Listen for contract events and update the timeline
         listenForEvents();
     } catch (error) {
@@ -86,28 +88,81 @@ async function initializeContract(contractAddress) {
     }
 }
 
+// Fetch past events
+async function fetchPastEvents() {
+    try {
+        console.log("Fetching past events...");
+
+        // Get all BonusPaid events
+        const bonusPaidEvents = await sandboxContract.queryFilter("BonusPaid");
+        bonusPaidEvents.forEach((event) => {
+            const { producer, amount, reason } = event.args;
+            console.log("Past BonusPaid event detected:", { producer, amount, reason });
+            addToTimeline(`Bonus Paid: ${amount / 1e18} tokens (${reason}) to ${producer}`, event);
+        });
+
+        // Get all RecruitmentIncentivePaid events
+        const recruitmentEvents = await sandboxContract.queryFilter("RecruitmentIncentivePaid");
+        recruitmentEvents.forEach((event) => {
+            const { producer, amount } = event.args;
+            console.log("Past RecruitmentIncentivePaid event detected:", { producer, amount });
+            addToTimeline(`Recruitment Incentive Paid: ${amount / 1e18} tokens to ${producer}`, event);
+        });
+
+        // Get all ClassCompletionRewardPaid events
+        const classCompletionEvents = await sandboxContract.queryFilter("ClassCompletionRewardPaid");
+        classCompletionEvents.forEach((event) => {
+            const { producer, amount } = event.args;
+            console.log("Past ClassCompletionRewardPaid event detected:", { producer, amount });
+            addToTimeline(`Class Completion Reward Paid: ${amount / 1e18} tokens to ${producer}`, event);
+        });
+
+        // Get all EngagementBonusPaid events
+        const engagementEvents = await sandboxContract.queryFilter("EngagementBonusPaid");
+        engagementEvents.forEach((event) => {
+            const { producer, amount } = event.args;
+            console.log("Past EngagementBonusPaid event detected:", { producer, amount });
+            addToTimeline(`Engagement Bonus Paid: ${amount / 1e18} tokens to ${producer}`, event);
+        });
+
+        // Get all FinalCompletionPaid events
+        const finalCompletionEvents = await sandboxContract.queryFilter("FinalCompletionPaid");
+        finalCompletionEvents.forEach((event) => {
+            const { producer, amount } = event.args;
+            console.log("Past FinalCompletionPaid event detected:", { producer, amount });
+            addToTimeline(`Final Completion Paid: ${amount / 1e18} tokens to ${producer}`, event);
+        });
+    } catch (error) {
+        console.error("Error fetching past events:", error.message);
+        alert("Failed to fetch past events.");
+    }
+}
+
+
 // Function to listen for contract events
 function listenForEvents() {
-    const timeline = document.getElementById("timeline");
-
-    // Replace "EventName" with the actual event names emitted by your contract
     sandboxContract.on("BonusPaid", (producer, amount, reason, event) => {
+        console.log("BonusPaid event detected:", { producer, amount, reason });
         addToTimeline(`Bonus Paid: ${amount / 1e18} tokens (${reason}) to ${producer}`, event);
     });
 
     sandboxContract.on("RecruitmentIncentivePaid", (producer, amount, event) => {
+        console.log("RecruitmentIncentivePaid event detected:", { producer, amount });
         addToTimeline(`Recruitment Incentive Paid: ${amount / 1e18} tokens to ${producer}`, event);
     });
 
     sandboxContract.on("ClassCompletionRewardPaid", (producer, amount, event) => {
+        console.log("ClassCompletionRewardPaid event detected:", { producer, amount });
         addToTimeline(`Class Completion Reward Paid: ${amount / 1e18} tokens to ${producer}`, event);
     });
 
     sandboxContract.on("EngagementBonusPaid", (producer, amount, event) => {
+        console.log("EngagementBonusPaid event detected:", { producer, amount });
         addToTimeline(`Engagement Bonus Paid: ${amount / 1e18} tokens to ${producer}`, event);
     });
 
     sandboxContract.on("FinalCompletionPaid", (producer, amount, event) => {
+        console.log("FinalCompletionPaid event detected:", { producer, amount });
         addToTimeline(`Final Completion Paid: ${amount / 1e18} tokens to ${producer}`, event);
     });
 }
@@ -115,15 +170,68 @@ function listenForEvents() {
 // Function to add an event to the timeline
 function addToTimeline(message, event) {
     const timeline = document.getElementById("timeline");
-    const newEvent = document.createElement("p");
 
-    const eventLink = `<a href="https://polygonscan.com/tx/${event.transactionHash}" target="_blank">View on PolygonScan</a>`;
-    newEvent.innerHTML = `${message} <br> ${eventLink}`;
+    // Create timeline event container
+    const timelineEvent = document.createElement("div");
+    timelineEvent.className = "timeline-event";
 
-    timeline.appendChild(newEvent);
+    // Add icons for stacked look
+    const iconStack = document.createElement("div");
+    iconStack.className = "icon-stack";
+    for (let i = 0; i < 3; i++) {
+        const icon = document.createElement("img");
+        icon.src = "./assets/DecentSmartHome_Logo.png"; // Replace with your preferred icon
+        icon.alt = "Icon";
+        iconStack.appendChild(icon);
+    }
+
+    // Add event content
+    const eventContent = document.createElement("div");
+    eventContent.className = "event-content";
+
+    // Create a table for the event data
+    const table = document.createElement("table");
+
+    const producerRow = `<tr>
+        <th>Producer</th>
+        <td class="address">${formatAddress(event.args.producer)}</td>
+    </tr>`;
+    const amountRow = `<tr>
+        <th>Amount</th>
+        <td class="token"><img src="./assets/DecentSmartHome_Logo.png" alt="SHT"> ${event.args.amount / 1e18}</td>
+    </tr>`;
+    const reasonRow = event.args.reason
+        ? `<tr>
+        <th>Reason</th>
+        <td>${event.args.reason}</td>
+    </tr>`
+        : "";
+    const linkRow = `<tr>
+        <th>Transaction</th>
+        <td><a href="https://polygonscan.com/tx/${event.transactionHash}" target="_blank">View on PolygonScan</a></td>
+    </tr>`;
+
+    // Combine all rows
+    table.innerHTML = producerRow + amountRow + reasonRow + linkRow;
+
+    // Append the table to the content
+    eventContent.appendChild(table);
+
+    // Combine elements
+    timelineEvent.appendChild(iconStack);
+    timelineEvent.appendChild(eventContent);
+    timeline.appendChild(timelineEvent);
 
     // Scroll to the bottom of the timeline
     timeline.scrollTop = timeline.scrollHeight;
+}
+
+// Helper function to format addresses
+function formatAddress(address) {
+    const favicons = Array(4)
+        .fill('<img src="./assets/Polygon_Logo.png" class="icon-small" alt="icon">')
+        .join("");
+    return `${address.slice(0, 6)}...${favicons}...${address.slice(-4)}`;
 }
 
 // Claim Signing Bonus

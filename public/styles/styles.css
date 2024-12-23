@@ -2,13 +2,32 @@ body {
     margin: 0;
     padding: 0;
     font-family: chalkduster, sans-serif; /* Use custom font */
-    color: white;
+    color: rgba(0, 255, 179, 0.766);
     text-align: center;
-    background: url('/assets/landing.png') no-repeat center center;
+}
+
+.landing_background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: url('../assets/landing.png') no-repeat center center;
     background-size: cover; /* Ensures the image covers the entire background */
     image-rendering: crisp-edges; /* Improves clarity for pixel-based images */
     image-rendering: -webkit-optimize-contrast; /* For better clarity in WebKit browsers */
     background-attachment: fixed; /* Keeps the background static while scrolling */
+}
+.landing_background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: 1;
+    pointer-events: none; /* Ensures it doesn't block clicks */
 }
 
 .background {
@@ -55,48 +74,6 @@ button:hover {
     margin-top: 10px;
     font-size: 1rem;
     color: #ccc;
-}
-.timeline-container {
-    position: relative; /* Make the container the positioning context */
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 10px;
-    width: 600px;
-    margin: 0 auto;
-    overflow: hidden; /* Prevent content from spilling out */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.background-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.5; /* Make the video semi-transparent */
-    object-fit: cover; /* Ensures the video covers the container */
-    z-index: -1; /* Push the video to the background */
-}
-
-.timeline-container h2,
-.timeline-container .timeline {
-    font-family: chalkduster, sans-serif;
-    position: relative; /* Ensure the content is above the video */
-    z-index: 1; /* Higher z-index than the video */
-}
-
-.timeline {
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.8); /* Add some transparency */
-    color: black;
-}
-
-.timeline p {
-    margin: 5px 0;
 }
 
 .hidden {
@@ -230,4 +207,112 @@ button:hover {
 
 .contract-button:hover {
     background-color: #1557b369; /* Darker blue on hover */
+}
+
+
+/* Timeline Container */
+.timeline-container {
+    position: relative;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+/* Background Video */
+.background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1; /* Ensure video is behind all content */
+}
+
+/* Timeline Line */
+.timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    z-index: 0;
+}
+
+/* Timeline Event */
+.timeline-event {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Stacked Icons */
+.timeline-event .icon-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+    margin-bottom: 10px;
+}
+
+.timeline-event .icon-stack img {
+    width: 20px;
+    height: 20px;
+    margin: 5px 0;
+}
+
+/* Event Content */
+.event-content {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    width: 90%; /* Wider table */
+}
+
+.event-content table {
+    width: 100%; /* Full width for the table */
+    color: white;
+    border-collapse: collapse;
+}
+
+.event-content table th,
+.event-content table td {
+    text-align: left;
+    padding: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.event-content table th {
+    font-weight: bold;
+}
+
+.address {
+    color: #02fffb;
+    font-weight: bold;
+}
+
+.token {
+    display: flex;
+    align-items: center;
+}
+
+.token img {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+    vertical-align: middle;
 }
