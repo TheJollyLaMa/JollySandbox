@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox Teacher</title>
+    <link rel="stylesheet" href="./styles/styles.css">
+</head>
+<body>
+    <div class="landing_background"></div>
+    <div id="contract-address" class="contract-display hidden">
+        <div class="stargate-container">
+            <a href="index.html" class="stargate-link">
+                <img src="./assets/GenericStargate.gif" alt="Producer Stargate" class="stargate-icon">
+            </a>
+            <a href="teacher.html" class="stargate-link">
+                <img src="./assets/GenericStargate.gif" alt="Teacher Stargate" class="stargate-icon">
+            </a>
+            <a href="student.html" class="stargate-link">
+                <img src="./assets/GenericStargate.gif" alt="Student Stargate" class="stargate-icon">
+            </a>
+            <!-- <a href="#" class="stargate-link">
+                <img src="./assets/GenericStargate.gif" alt="Reserved Stargate" class="stargate-icon">
+            </a> -->
+        </div>
+        <button id="contract-link" class="contract-button hidden"></button>
+    </div>
+
+    <div class="background">
+        <div class="container">
+            <h1>Sandbox Teacher Payout Portal</h1>
+            <button id="walletConnectBtn">Connect Wallet</button>
+            <p id="director-address" class="director hidden"></p>
+            <p id="producer-address" class="producer hidden"></p>
+            <button id="setupClassBtn" disabled>Set Up Class</button>
+            <button id="recordAttendanceBtn" disabled>Record Attendance</button>
+            <button id="payTeacherBtn" disabled>Pay Teacher</button>
+        </div>
+    </div>
+
+    <div class="timeline-container">
+        <video autoplay muted loop class="background-video">
+            <source src="./assets/blue_sprite.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h2>Teacher Contract Event Timeline</h2>
+        <div id="timeline" class="timeline"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <!-- <script src="./scripts/teacherContract.js"></script> -->
+    <script>
+        const contractAddress = "0xYourTeacherContractAddressHere";
+
+        document.getElementById("walletConnectBtn").addEventListener("click", async () => {
+            await connectWallet();
+            await initializeContract(contractAddress);
+
+            // Enable buttons
+            document.getElementById("setupClassBtn").disabled = false;
+            document.getElementById("recordAttendanceBtn").disabled = false;
+            document.getElementById("payTeacherBtn").disabled = false;
+        });
+
+        document.getElementById("setupClassBtn").addEventListener("click", async () => {
+            const classDetails = prompt("Enter class details:");
+            await setupClass(classDetails);
+        });
+
+        document.getElementById("recordAttendanceBtn").addEventListener("click", async () => {
+            const attendees = prompt("Enter number of attendees:");
+            await recordAttendance(attendees);
+        });
+
+        document.getElementById("payTeacherBtn").addEventListener("click", async () => {
+            await payTeacher();
+        });
+    </script>
+</body>
+</html>

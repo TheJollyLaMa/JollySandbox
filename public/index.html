@@ -9,6 +9,20 @@
 <body>
         <div class="landing_background"></div>
         <div id="contract-address" class="contract-display hidden">
+            <div class="stargate-container">
+                <a href="index.html" class="stargate-link">
+                    <img src="./assets/GenericStargate.gif" alt="Producer Stargate" class="stargate-icon">
+                </a>
+                <a href="teacher.html" class="stargate-link">
+                    <img src="./assets/GenericStargate.gif" alt="Teacher Stargate" class="stargate-icon">
+                </a>
+                <a href="student.html" class="stargate-link">
+                    <img src="./assets/GenericStargate.gif" alt="Student Stargate" class="stargate-icon">
+                </a>
+                <!-- <a href="#" class="stargate-link">
+                    <img src="./assets/GenericStargate.gif" alt="Reserved Stargate" class="stargate-icon">
+                </a> -->
+            </div>
             <button id="contract-link" class="contract-button hidden"></button>
         </div>
         <div id="loader" class="hidden">
@@ -50,6 +64,22 @@
     <script>
         const contractAddress = "0xfd5011a9080B6059411236AB74F395B74e597573";
         
+        document.querySelectorAll(".stargate-link").forEach((link, index) => {
+            link.addEventListener("click", (event) => {
+                event.preventDefault(); // Prevent default link behavior
+
+                // Define navigation destinations for each Stargate
+                const destinations = ["index.html", "teacher.html", "student.html", "#"];
+
+                // Check if the destination exists
+                if (destinations[index]) {
+                    window.location.href = destinations[index]; // Navigate to the corresponding page
+                } else {
+                    alert("This Stargate is not active yet!"); // Optional alert for inactive links
+                }
+        });
+});
+
         document.getElementById("walletConnectBtn").addEventListener("click", async () => {
             await connectWallet();
             await initializeContract(contractAddress);

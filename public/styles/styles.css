@@ -167,6 +167,7 @@ button:hover {
     top: 0;
     left: 0;
     width: 100%;
+    height: 80px;
     background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
     color: rgba(245, 231, 42, 0.714);
     font-size: 14px;
@@ -322,4 +323,40 @@ button:hover {
     text-shadow: 0 0 10px #02fffb66, 0 0 20px #02fffb66, 0 0 30px #02fffb66; /* Add glow effect */
     font-weight: bold;
     text-decoration: none;
+}
+
+.stargate-container {
+    position: fixed;
+    top: 10px; /* Adjust as needed */
+    left: 10px; /* Adjust as needed */
+    display: flex;
+    gap: 10px; /* Spacing between icons */
+    z-index: 1000; /* Ensure it stays on top of other elements */
+}
+
+.stargate-link {
+    position: relative; /* Relative positioning to make it a containing block */
+    width: 70px; /* Fixed container size */
+    height: 70px; /* Fixed container size */
+    overflow: hidden; /* Ensure the image doesn't overflow the container */
+    border-radius: 50%; /* Optional: Keeps circular shape */
+}
+
+.stargate-icon {
+    position: absolute; /* Absolute positioning to center the image */
+    top: 50%; /* Move the image to the middle of the container */
+    left: 50%; /* Move the image to the middle of the container */
+    transform: translate(-50%, -50%) scale(0.2); /* Center it and apply scaling */
+    width: auto; /* Maintain aspect ratio */
+    height: auto; /* Maintain aspect ratio */
+    min-width: 100%; /* Ensure it fills the container horizontally */
+    min-height: 100%; /* Ensure it fills the container vertically */
+    object-fit: cover; /* Ensure the image scales properly */
+    cursor: pointer; /* Add a pointer cursor for interaction */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stargate-icon:hover {
+    transform: translate(-50%, -50%) scale(0.23); /* Hover effect with larger scaling */
+    box-shadow: 12px 14px 20px rgba(5, 247, 247, 0.7); /* Glow effect on hover */
 }
