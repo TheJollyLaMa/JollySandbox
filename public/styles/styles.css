@@ -316,3 +316,10 @@ button:hover {
     margin-left: 5px;
     vertical-align: middle;
 }
+
+.block-explorer-link {
+    color: #02fffb66;
+    text-shadow: 0 0 10px #02fffb66, 0 0 20px #02fffb66, 0 0 30px #02fffb66; /* Add glow effect */
+    font-weight: bold;
+    text-decoration: none;
+}

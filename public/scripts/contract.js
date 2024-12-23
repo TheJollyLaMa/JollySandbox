@@ -208,7 +208,7 @@ function addToTimeline(message, event) {
         : "";
     const linkRow = `<tr>
         <th>Transaction</th>
-        <td><a href="https://polygonscan.com/tx/${event.transactionHash}" target="_blank">View on PolygonScan</a></td>
+        <td><a href="https://polygonscan.com/tx/${event.transactionHash}" class="block-explorer-link" target="_blank">View on PolygonScan</a></td>
     </tr>`;
 
     // Combine all rows
