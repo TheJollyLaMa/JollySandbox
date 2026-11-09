@@ -13,23 +13,14 @@ const loadABI = async () => {
 
 // Initialize wallet connection
 async function connectWallet() {
-    if (typeof window.ethereum === "undefined") {
-        alert("MetaMask is not installed! Please install MetaMask to use this application.");
-        return;
-    }
-
-    try {
-        // Check if MetaMask is available
-        walletProvider = new ethers.providers.Web3Provider(window.ethereum);
-
-        // Request wallet connection
-        const accounts = await walletProvider.send("eth_requestAccounts", []);
-        userAddress = accounts[0];
-
-    } catch (error) {
-        console.error("Error connecting wallet:", error.message);
-        alert(error.message);
-    }
+    const session = window.DecentHead?.getWallet();
+    if (!session) throw new Error("The shared wallet is still loading.");
+    if (!session.snapshot().connected) await session.connect();
+    const state = session.snapshot();
+    if (!state.connected) throw new Error("Wallet connection was cancelled.");
+    if (Number(state.chainId) !== 137) throw new Error("Select Polygon in your wallet before opening the Producer portal.");
+    walletProvider = new ethers.providers.Web3Provider(session.rawProvider, "any");
+    userAddress = state.address;
 }
 
 async function initializeContract(contractAddress) {
@@ -82,9 +73,11 @@ async function initializeContract(contractAddress) {
         fetchPastEvents();
         // Listen for contract events and update the timeline
         listenForEvents();
+        return true;
     } catch (error) {
         console.error("Error initializing contract:", error.message);
         alert(error.message);
+        return false;
     }
 }
 
