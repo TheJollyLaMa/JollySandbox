@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A local-only, synthetic facilitator and learner event-ledger exercise.">
+  <title>Course Ledger Exercise · JollySandbox</title>
+  <link rel="stylesheet" href="./styles/styles.css">
+  <link rel="stylesheet" href="./styles/course-ledger.css">
+  <script src="./decent-head.config.js"></script>
+  <script type="module" src="./vendor/decent-head/2.0.0/js/main.js"></script>
+  <script src="./scripts/course-ledger-chain.js" defer></script>
+  <script src="./scripts/course-ledger.js" defer></script>
+</head>
+<body class="course-ledger-page">
+  <decent-header></decent-header>
+  <div class="landing_background" aria-hidden="true"></div>
+  <header class="course-header">
+    <a href="index.html">Back to Sandbox Producer portal</a>
+    <p class="course-kicker">Decent Code Camp · synthetic teaching exercise</p>
+    <h1>Practice a bounded course ledger</h1>
+    <p>Try a facilitator/learner loop and inspect the event-shaped timeline. The exercise itself is local-only and does not connect to the Producer portal.</p>
+    <p class="course-status" role="status"><strong>Local simulation by default:</strong> no wallet or RPC is accessed unless you connect using the header and separately opt in to the read-only compatibility check below. The local entries are never sent, saved, or submitted; they disappear on refresh or reset.</p>
+  </header>
+
+  <main>
+    <section class="course-panel" aria-labelledby="workflow-heading">
+      <h2 id="workflow-heading">Choose a practice role</h2>
+      <label for="role-select">Role</label>
+      <select id="role-select">
+        <option value="learner">Learner</option>
+        <option value="facilitator">Facilitator</option>
+      </select>
+
+      <form id="learner-form" class="role-form">
+        <h3>Learner: mark a local checkpoint</h3>
+        <p>Choose only a week and a kind of evidence. No names or free-text are collected.</p>
+        <label for="learner-week">Week</label>
+        <select id="learner-week" required></select>
+        <label for="checkpoint-kind">Evidence checkpoint</label>
+        <select id="checkpoint-kind" required>
+          <option value="I can explain the user need">I can explain the user need</option>
+          <option value="I can show a working screen">I can show a working screen</option>
+          <option value="I ran a test">I ran a test</option>
+          <option value="I can explain a privacy choice">I can explain a privacy choice</option>
+          <option value="I can explain what is not live">I can explain what is not live</option>
+        </select>
+        <button type="submit">Add local checkpoint</button>
+      </form>
+
+      <form id="facilitator-form" class="role-form" hidden>
+        <h3>Facilitator: record aggregate practice attendance</h3>
+        <p>One count per week, up to 6 learners. Record no names, addresses, or individual attendance.</p>
+        <label for="session-week">Week</label>
+        <select id="session-week" required></select>
+        <label for="attendee-count">Synthetic attendance count (0–6)</label>
+        <input id="attendee-count" type="number" min="0" max="6" step="1" value="3" required>
+        <button type="submit">Add simulated session</button>
+      </form>
+
+      <p id="action-status" class="action-status" aria-live="polite">No local practice records yet.</p>
+      <p class="course-note"><strong>Teaching boundary:</strong> this exercise reuses the Sandbox event-timeline idea only. It never invokes a payout function, emits a blockchain event, awards tokens, or marks enrollment.</p>
+    </section>
+
+    <section class="course-panel" aria-labelledby="ledger-heading">
+      <div class="ledger-heading">
+        <div>
+          <h2 id="ledger-heading">Local event timeline</h2>
+          <p>Only week number, role, checkpoint type, and an aggregate synthetic count can appear here.</p>
+        </div>
+        <div class="ledger-actions">
+          <button id="sample-button" type="button">Load synthetic sample</button>
+          <button id="reset-button" type="button">Clear local records</button>
+        </div>
+      </div>
+      <ol id="timeline" class="course-timeline" aria-live="polite" aria-label="Local simulated course events">
+        <li id="empty-state" class="empty-state">No local records. Add a checkpoint or simulated session to begin.</li>
+      </ol>
+    </section>
+
+    <section class="course-panel" aria-labelledby="limits-heading">
+      <h2 id="limits-heading">What this demonstration does not do</h2>
+      <ul>
+        <li>The local ledger does not use the wallet-connected Producer page, the Polygon contract, or the portal's RPC/event client. A separate read-only compatibility check is opt-in.</li>
+        <li>It never sends learner data to a server, persists records, enrolls a learner, or processes payment. Opting in requests a wallet address and reads public chain data only; it sends no transaction.</li>
+        <li>It does not represent a live or deployed course feature. The historical payout contract and this no-wallet exercise are separate.</li>
+      </ul>
+      <p>The 12-week course guide is prepared in the local AJollyDecentCodeCamp worktree and is not published yet. <a href="https://github.com/TheJollyLaMa/AJollyDecentCodeCamp/tree/jolly-brancher">Open the course repository's teaching branch</a> for project context.</p>
+    </section>
+
+    <section class="course-panel" aria-labelledby="chain-heading">
+      <h2 id="chain-heading">Public-ledger evidence: unavailable</h2>
+      <p>The current Sandbox contract has no course-evidence method or event. Its <code>recordClassCompletion(uint256 attendees)</code> is an owner-only payout: it requires at least 10 attendees, transfers 2 tokens to the producer, and increments a shared class counter. It cannot safely record this course's maximum-six aggregate sessions or learner checkpoints. This page will not call it.</p>
+      <p>No course deployment is configured. Until a compatible, separately reviewed deployment exists, public-ledger submission is unavailable; local records are not public evidence.</p>
+      <fieldset class="chain-check">
+        <legend>Optional read-only compatibility check</legend>
+        <p>This does not submit evidence. Connect with the shared header first; only if you separately opt in will this check use that session and read chain ID, contract bytecode, owner, and producer. Wallet addresses and public-chain reads may be visible to your wallet/RPC provider. No signature or transaction will be requested.</p>
+        <p>There is no preconfigured deployment. Any chain ID/address you enter is an unverified read target, not a recommended or verified contract deployment.</p>
+        <label><input id="chain-opt-in" type="checkbox"> I opt in to a read-only wallet/deployment check (not evidence submission).</label>
+        <label for="chain-role">My proposed role</label>
+        <select id="chain-role">
+          <option value="learner">Learner</option>
+          <option value="facilitator">Facilitator</option>
+        </select>
+        <label for="chain-id">Expected chain ID (required)</label>
+        <input id="chain-id" inputmode="numeric" pattern="[0-9]+" placeholder="Not configured">
+        <label for="chain-address">Sandbox contract address (required)</label>
+        <input id="chain-address" autocomplete="off" spellcheck="false" placeholder="Not configured">
+        <button id="chain-check-button" type="button">Check configuration (read-only)</button>
+        <p id="chain-check-status" class="action-status" aria-live="polite">Unavailable: no course-compatible deployment is configured. No submission or confirmation receipt exists.</p>
+        <p id="chain-check-result" class="chain-result" aria-live="polite">Submitted: no · Confirmed: no</p>
+      </fieldset>
+    </section>
+  </main>
+  <footer class="course-footer">
+    <p><a href="https://github.com/TheJollyLaMa/JollySandbox">JollySandbox source</a> · no wallet or contract needed for this lesson.</p>
+  </footer>
+</body>
+</html>

@@ -360,3 +360,7 @@ button:hover {
     transform: translate(-50%, -50%) scale(0.23); /* Hover effect with larger scaling */
     box-shadow: 12px 14px 20px rgba(5, 247, 247, 0.7); /* Glow effect on hover */
 }
+decent-header { display: block; position: relative; z-index: 1001; }
+.contract-display { position: relative; }
+.stargate-container { position: static; }
+html, body { overflow-x: clip; }
