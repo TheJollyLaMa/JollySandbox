@@ -1,0 +1,11 @@
+defaults:
+  - scope:
+      path: ""
+    values:
+      image:
+        path: "https://thejollylama.github.io/JollySandbox/assets/social-preview.jpg"
+        width: 1200
+        height: 630
+        alt: "JollySandbox public project website preview"
+twitter:
+  card: summary_large_image
